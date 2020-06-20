@@ -1,0 +1,593 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Main.gd" type="Script" id=1]
+[ext_resource path="res://DefaultTileMap.tres" type="TileSet" id=2]
+[ext_resource path="res://TilesRow.tscn" type="PackedScene" id=3]
+[ext_resource path="res://CaveGenerator.gd" type="Script" id=4]
+[ext_resource path="res://ValueItem.tscn" type="PackedScene" id=5]
+[ext_resource path="res://TileItem.tscn" type="PackedScene" id=6]
+[ext_resource path="res://CaveOverlay.gd" type="Script" id=7]
+
+[node name="Main" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+_generator_container = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CaveContainer")
+_generator = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CaveContainer/CaveGenerator")
+_cave_overlay = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CaveContainer/CaveOverlay")
+_map_width = NodePath("HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer/MapWidth")
+_map_height = NodePath("HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer/MapHeight")
+_iterations = NodePath("HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer/Iterations")
+_neighbours = NodePath("HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer/Neighbours")
+_ground_chance = NodePath("HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer/GroundChance")
+_min_cave_size = NodePath("HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer/MinCaveSize")
+_tiles_row = NodePath("HBoxContainer/VBoxContainer/PanelTiles/Panel/MarginContainer/ScrollContainer/TilesRow")
+_preview_texture = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer/VBoxContainer/MarginContainer/PreviewTexture")
+_label_file = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Panel/HBoxContainer/LabelFile")
+_label_status = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Panel/HBoxContainer/LabelStatus")
+_save_map_quick = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer/VBoxContainer/MarginContainer4/SaveMapQuick")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.145098, 0.145098, 0.164706, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainerLeft" type="VBoxContainer" parent="HBoxContainer"]
+margin_right = 300.0
+margin_bottom = 800.0
+custom_constants/separation = 0
+
+[node name="PanelLeft" type="PanelContainer" parent="HBoxContainer/VBoxContainerLeft"]
+margin_right = 300.0
+margin_bottom = 764.0
+rect_min_size = Vector2( 300, 0 )
+size_flags_horizontal = 0
+size_flags_vertical = 3
+
+[node name="Panel" type="Panel" parent="HBoxContainer/VBoxContainerLeft/PanelLeft"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 293.0
+margin_bottom = 757.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainerLeft/PanelLeft/Panel"]
+margin_right = 286.0
+margin_bottom = 410.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 8
+custom_constants/margin_top = 8
+custom_constants/margin_left = 8
+custom_constants/margin_bottom = 8
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 278.0
+margin_bottom = 402.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer"]
+margin_right = 270.0
+margin_bottom = 14.0
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_right = 116.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 120.0
+margin_right = 150.0
+margin_bottom = 14.0
+text = "Cave"
+
+[node name="HSeparator2" type="HSeparator" parent="HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 154.0
+margin_right = 270.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="MapWidth" parent="HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer" instance=ExtResource( 5 )]
+margin_top = 18.0
+margin_right = 270.0
+margin_bottom = 62.0
+label = "Map Width"
+min_value = 16
+max_value = 48
+value_step = 2
+
+[node name="MapHeight" parent="HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer" instance=ExtResource( 5 )]
+margin_top = 66.0
+margin_right = 270.0
+margin_bottom = 110.0
+label = "Map Height"
+min_value = 16
+max_value = 48
+value_step = 2
+
+[node name="Iterations" parent="HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer" instance=ExtResource( 5 )]
+margin_top = 114.0
+margin_right = 270.0
+margin_bottom = 158.0
+label = "Iterations"
+min_value = 5000
+max_value = 20000
+value_step = 500
+
+[node name="Neighbours" parent="HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer" instance=ExtResource( 5 )]
+margin_top = 162.0
+margin_right = 270.0
+margin_bottom = 206.0
+label = "Neighbours:"
+min_value = 4
+max_value = 5
+
+[node name="GroundChance" parent="HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer" instance=ExtResource( 5 )]
+margin_top = 210.0
+margin_right = 270.0
+margin_bottom = 254.0
+label = "Ground Chance"
+min_value = 48
+max_value = 70
+
+[node name="MinCaveSize" parent="HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer" instance=ExtResource( 5 )]
+margin_top = 258.0
+margin_right = 270.0
+margin_bottom = 302.0
+label = "Min Cave Size"
+min_value = 8
+max_value = 32
+value_step = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer"]
+margin_top = 306.0
+margin_right = 270.0
+margin_bottom = 316.0
+rect_min_size = Vector2( 0, 10 )
+size_flags_vertical = 0
+
+[node name="Generate" type="Button" parent="HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer" groups=[
+"NonActiveOnOverlay",
+]]
+margin_top = 320.0
+margin_right = 270.0
+margin_bottom = 352.0
+rect_min_size = Vector2( 0, 32 )
+text = "Generate"
+
+[node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer"]
+margin_top = 356.0
+margin_right = 270.0
+margin_bottom = 366.0
+rect_min_size = Vector2( 0, 10 )
+size_flags_vertical = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/VBoxContainerLeft"]
+margin_top = 764.0
+margin_right = 300.0
+margin_bottom = 800.0
+
+[node name="Panel" type="Panel" parent="HBoxContainer/VBoxContainerLeft/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 293.0
+margin_bottom = 29.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainerLeft/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 293.0
+margin_bottom = 29.0
+custom_constants/margin_right = 4
+custom_constants/margin_top = 4
+custom_constants/margin_left = 4
+custom_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainerLeft/PanelContainer/MarginContainer"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 282.0
+margin_bottom = 18.0
+text = "v0.1.0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+margin_left = 300.0
+margin_right = 1280.0
+margin_bottom = 800.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+margin_right = 980.0
+margin_bottom = 704.0
+size_flags_vertical = 3
+custom_constants/separation = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_right = 680.0
+margin_bottom = 704.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Panel" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_right = 680.0
+margin_bottom = 28.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Panel"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 673.0
+margin_bottom = 21.0
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Panel/HBoxContainer"]
+margin_right = 27.0
+margin_bottom = 14.0
+text = "File:"
+
+[node name="LabelFile" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Panel/HBoxContainer"]
+margin_left = 31.0
+margin_right = 595.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+
+[node name="LabelStatus" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/Panel/HBoxContainer"]
+margin_left = 599.0
+margin_right = 666.0
+margin_bottom = 14.0
+text = "Generated"
+
+[node name="CaveContainer" type="CenterContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_top = 32.0
+margin_right = 680.0
+margin_bottom = 704.0
+rect_min_size = Vector2( 424, 424 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+use_top_left = true
+
+[node name="CaveGenerator" type="TileMap" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CaveContainer"]
+modulate = Color( 1, 1, 1, 0.392157 )
+scale = Vector2( 1.5, 1.5 )
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 8, 8 )
+format = 1
+script = ExtResource( 4 )
+map_w = 48
+map_h = 48
+min_cave_size = 24
+
+[node name="CaveOverlay" type="TileMap" parent="HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CaveContainer" groups=[
+"NonActiveOnOverlay",
+]]
+scale = Vector2( 1.5, 1.5 )
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 8, 8 )
+format = 1
+script = ExtResource( 7 )
+_generator = NodePath("../CaveGenerator")
+_tiles_row = NodePath("../../../../PanelTiles/Panel/MarginContainer/ScrollContainer/TilesRow")
+
+[node name="PanelRight" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 680.0
+margin_right = 980.0
+margin_bottom = 704.0
+rect_min_size = Vector2( 300, 0 )
+size_flags_horizontal = 0
+size_flags_vertical = 3
+
+[node name="Panel" type="Panel" parent="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 293.0
+margin_bottom = 697.0
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 8
+custom_constants/margin_top = 8
+custom_constants/margin_left = 8
+custom_constants/margin_bottom = 8
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 278.0
+margin_bottom = 682.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer/VBoxContainer"]
+margin_right = 270.0
+margin_bottom = 14.0
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_right = 106.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 110.0
+margin_right = 160.0
+margin_bottom = 14.0
+text = "Preview"
+
+[node name="HSeparator2" type="HSeparator" parent="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 164.0
+margin_right = 270.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer/VBoxContainer"]
+margin_top = 18.0
+margin_right = 270.0
+margin_bottom = 474.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 8
+custom_constants/margin_top = 8
+custom_constants/margin_left = 8
+custom_constants/margin_bottom = 8
+
+[node name="PreviewTexture" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer/VBoxContainer/MarginContainer"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 262.0
+margin_bottom = 448.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+expand = true
+stretch_mode = 6
+
+[node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer/VBoxContainer"]
+margin_top = 478.0
+margin_right = 270.0
+margin_bottom = 516.0
+custom_constants/margin_top = 16
+custom_constants/margin_bottom = 8
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer/VBoxContainer/MarginContainer2"]
+margin_top = 16.0
+margin_right = 270.0
+margin_bottom = 30.0
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer3"]
+margin_right = 116.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer3"]
+margin_left = 120.0
+margin_right = 149.0
+margin_bottom = 14.0
+text = "Save"
+
+[node name="HSeparator2" type="HSeparator" parent="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer/VBoxContainer/MarginContainer2/HBoxContainer3"]
+margin_left = 153.0
+margin_right = 270.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="SaveMap" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer/VBoxContainer" groups=[
+"NonActiveOnOverlay",
+]]
+margin_top = 520.0
+margin_right = 270.0
+margin_bottom = 552.0
+rect_min_size = Vector2( 0, 32 )
+text = "Save Map As"
+
+[node name="MarginContainer4" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer/VBoxContainer"]
+margin_top = 556.0
+margin_right = 270.0
+margin_bottom = 596.0
+custom_constants/margin_top = 8
+
+[node name="SaveMapQuick" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer/VBoxContainer/MarginContainer4" groups=[
+"NonActiveOnOverlay",
+]]
+margin_top = 8.0
+margin_right = 270.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 0, 32 )
+disabled = true
+text = "Save"
+
+[node name="MarginContainer3" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer/VBoxContainer"]
+margin_top = 600.0
+margin_right = 270.0
+margin_bottom = 638.0
+custom_constants/margin_top = 16
+custom_constants/margin_bottom = 8
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer/VBoxContainer/MarginContainer3"]
+margin_top = 16.0
+margin_right = 270.0
+margin_bottom = 30.0
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer/VBoxContainer/MarginContainer3/HBoxContainer3"]
+margin_right = 109.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer/VBoxContainer/MarginContainer3/HBoxContainer3"]
+margin_left = 113.0
+margin_right = 157.0
+margin_bottom = 14.0
+text = "Import"
+
+[node name="HSeparator2" type="HSeparator" parent="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer/VBoxContainer/MarginContainer3/HBoxContainer3"]
+margin_left = 161.0
+margin_right = 270.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+
+[node name="ImportMap" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer/VBoxContainer" groups=[
+"NonActiveOnOverlay",
+]]
+margin_top = 642.0
+margin_right = 270.0
+margin_bottom = 674.0
+rect_min_size = Vector2( 0, 32 )
+text = "Import Map"
+
+[node name="PanelTiles" type="PanelContainer" parent="HBoxContainer/VBoxContainer"]
+margin_top = 704.0
+margin_right = 980.0
+margin_bottom = 800.0
+rect_min_size = Vector2( 0, 96 )
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="Panel" type="Panel" parent="HBoxContainer/VBoxContainer/PanelTiles"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 973.0
+margin_bottom = 89.0
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/PanelTiles/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 8
+custom_constants/margin_top = 8
+custom_constants/margin_left = 8
+custom_constants/margin_bottom = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/VBoxContainer/PanelTiles/Panel/MarginContainer"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 958.0
+margin_bottom = 82.0
+size_flags_horizontal = 3
+
+[node name="TilesRow" parent="HBoxContainer/VBoxContainer/PanelTiles/Panel/MarginContainer/ScrollContainer" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 950.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
+
+[node name="Erase" parent="HBoxContainer/VBoxContainer/PanelTiles/Panel/MarginContainer/ScrollContainer/TilesRow" instance=ExtResource( 6 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 64.0
+margin_bottom = 64.0
+item_color = Color( 0, 0, 0, 0 )
+item_type = -1
+
+[node name="Roof" parent="HBoxContainer/VBoxContainer/PanelTiles/Panel/MarginContainer/ScrollContainer/TilesRow" instance=ExtResource( 6 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 68.0
+margin_right = 132.0
+margin_bottom = 64.0
+
+[node name="Ground" parent="HBoxContainer/VBoxContainer/PanelTiles/Panel/MarginContainer/ScrollContainer/TilesRow" instance=ExtResource( 6 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 136.0
+margin_right = 200.0
+margin_bottom = 64.0
+item_color = Color( 1, 1, 1, 1 )
+item_type = 1
+
+[node name="ColorRectOverlay" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.392157 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SaveMapDialog" type="FileDialog" parent="."]
+anchor_right = 0.49
+anchor_bottom = 0.668
+margin_left = 244.32
+margin_top = 98.219
+margin_right = 244.56
+margin_bottom = 98.419
+popup_exclusive = true
+window_title = "Save Map"
+access = 2
+filters = PoolStringArray( "*.png" )
+current_dir = "E:/Projects/Games/LastSlime/tools/CaveGenerator"
+current_path = "E:/Projects/Games/LastSlime/tools/CaveGenerator/"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ImportMapDialog" type="FileDialog" parent="."]
+anchor_right = 0.49
+anchor_bottom = 0.668
+margin_left = 244.32
+margin_top = 98.219
+margin_right = 244.56
+margin_bottom = 98.419
+window_title = "Open a File"
+mode = 0
+access = 2
+filters = PoolStringArray( "*.png" )
+current_dir = "E:/Projects/Games/LastSlime/tools/CaveGenerator"
+current_path = "E:/Projects/Games/LastSlime/tools/CaveGenerator/"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ResetStatus" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+[connection signal="value_changed" from="HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer/MapWidth" to="." method="_on_MapWidth_value_changed"]
+[connection signal="value_changed" from="HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer/MapHeight" to="." method="_on_MapHeight_value_changed"]
+[connection signal="value_changed" from="HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer/Iterations" to="." method="_on_Iterations_value_changed"]
+[connection signal="value_changed" from="HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer/Neighbours" to="." method="_on_Neighbours_value_changed"]
+[connection signal="value_changed" from="HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer/GroundChance" to="." method="_on_GroundChance_value_changed"]
+[connection signal="value_changed" from="HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer/MinCaveSize" to="." method="_on_MinCaveSize_value_changed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainerLeft/PanelLeft/Panel/MarginContainer/VBoxContainer/Generate" to="." method="_on_Generate_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer/VBoxContainer/SaveMap" to="." method="_on_SaveMap_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer/VBoxContainer/MarginContainer4/SaveMapQuick" to="." method="_on_SaveMapQuick_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/PanelRight/Panel/MarginContainer/VBoxContainer/ImportMap" to="." method="_on_ImportMap_pressed"]
+[connection signal="file_selected" from="SaveMapDialog" to="." method="_on_SaveMapDialog_file_selected"]
+[connection signal="popup_hide" from="SaveMapDialog" to="." method="_on_SaveMapDialog_popup_hide"]
+[connection signal="file_selected" from="ImportMapDialog" to="." method="_on_ImportMapDialog_file_selected"]
+[connection signal="popup_hide" from="ImportMapDialog" to="." method="_on_ImportMapDialog_popup_hide"]
+[connection signal="timeout" from="ResetStatus" to="." method="_on_ResetStatus_timeout"]
